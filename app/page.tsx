@@ -1,9 +1,19 @@
 "use client"
 
-import { useState, useEffect, KeyboardEvent } from "react";
+import { useState, useEffect, KeyboardEvent, useMemo } from "react";
 
 export default function Home() {
-  const ANSWER = [42, 12, 1, 3, 6, 2];
+  const ANSWER = useMemo(() => {
+    const generateRandomLottoNumbers = () => {
+      const numbers = new Set<number>();
+      while (numbers.size < 6) {
+        numbers.add(Math.floor(Math.random() * 45) + 1);
+      }
+      return Array.from(numbers);
+    };
+    return generateRandomLottoNumbers();
+  }, []); // Empty dependency array means this will only run once when component mounts
+
   const [numbers, setNumbers] = useState(['', '', '', '', '', '']);
   const [status, setStatus] = useState(['', '', '', '', '', '']); // 'up', 'down', 'correct'
   const [locked, setLocked] = useState([false, false, false, false, false, false]);
